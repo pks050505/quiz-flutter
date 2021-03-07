@@ -9,7 +9,7 @@ part of 'item.dart';
 _$_Item _$_$_ItemFromJson(Map<String, dynamic> json) {
   return _$_Item(
     id: json['id'] as String?,
-    name: json['name'] as String?,
+    name: json['name'] as String,
     obtainded: json['obtainded'] as bool? ?? false,
   );
 }

@@ -15,8 +15,8 @@ class AuthController extends StateNotifier<User?> {
   AuthController(this._read) : super(null) {
     _authStateChangesSubscription?.cancel();
     _authStateChangesSubscription = _read(authRepositoryProvider)
-        .authStateChanges!
-        .listen((user) => state = user!);
+        .authStateChanges
+        .listen((user) => state = user);
   }
   @override
   void dispose() {

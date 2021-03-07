@@ -6,7 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 abstract class BaseAuthRepository {
   Future<void> signInAnounmously();
   User? getCurrentUser();
-  Stream<User?>? get authStateChanges;
+  Stream<User?> get authStateChanges;
   Future<void> signOut();
 }
 
@@ -18,13 +18,8 @@ class AuthRepository extends BaseAuthRepository {
   final Reader _read;
   AuthRepository(this._read);
   @override
-  Stream<User?>? get authStateChanges {
-    try {
-      return _read(firebaseAuthProvider).authStateChanges();
-    } on FirebaseAuthException catch (e) {
-      throw CustomException(message: e.message);
-    }
-  }
+  Stream<User?> get authStateChanges =>
+      _read(firebaseAuthProvider).authStateChanges();
 
   @override
   User? getCurrentUser() {

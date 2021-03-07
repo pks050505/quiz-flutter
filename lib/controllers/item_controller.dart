@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_cource_todo_2/controllers/auth_controller.dart';
 import 'package:flutter_cource_todo_2/exceptions/custom_exception.dart';
 
@@ -8,7 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../models/item.dart';
 
-final itemListExceptionProvider = StateProvider<CustomException?>((ref) {
+final itemListExceptionProvider = StateProvider<CustomException?>((_) {
   return null;
 });
 final itemListControllerProvider = Provider<ItemListController>((ref) {
@@ -20,24 +19,25 @@ class ItemListController extends StateNotifier<AsyncValue<List<Item>>> {
   final Reader _read;
   final String? _userId;
   ItemListController(this._read, this._userId) : super(AsyncValue.loading()) {
-    if (_userId != null) retrieveItem(_userId!);
+    if (_userId != null) retrieveItem();
   }
-  Future<List<Item>?> retrieveItem(String userId) async {
+  Future<List<Item>?> retrieveItem() async {
     try {
       final items =
-          await _read(itemRepositoryProvider).retrieveItem(userId: userId);
+          await _read(itemRepositoryProvider).retrieveItem(userId: _userId);
       if (mounted) state = AsyncValue.data(items!);
     } on CustomException catch (e, st) {
-      throw AsyncValue.error(e, st);
+      state = AsyncValue.error(e, st);
     }
   }
 
-  Future<void> createItem({bool obtained = false, String? name}) async {
+  Future<void> createItem({bool obtained = false, required String name}) async {
     try {
       final item = Item(name: name, obtainded: obtained);
       final itemId = await _read(itemRepositoryProvider)
           .createItem(userId: _userId, item: item);
-      state.whenData((items) => items.add(item.copyWith(id: itemId)));
+      state.whenData((items) =>
+          state = AsyncValue.data(items..add(item..copyWith(id: itemId))));
     } on CustomException catch (e) {
       _read(itemListExceptionProvider).state = e;
     }

@@ -20,7 +20,7 @@ Item _$ItemFromJson(Map<String, dynamic> json) {
 class _$ItemTearOff {
   const _$ItemTearOff();
 
-  _Item call({String? id, String? name, bool obtainded = false}) {
+  _Item call({String? id, required String name, bool obtainded = false}) {
     return _Item(
       id: id,
       name: name,
@@ -39,7 +39,7 @@ const $Item = _$ItemTearOff();
 /// @nodoc
 mixin _$Item {
   String? get id => throw _privateConstructorUsedError;
-  String? get name => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
   bool get obtainded => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -51,7 +51,7 @@ mixin _$Item {
 abstract class $ItemCopyWith<$Res> {
   factory $ItemCopyWith(Item value, $Res Function(Item) then) =
       _$ItemCopyWithImpl<$Res>;
-  $Res call({String? id, String? name, bool obtainded});
+  $Res call({String? id, String name, bool obtainded});
 }
 
 /// @nodoc
@@ -70,7 +70,7 @@ class _$ItemCopyWithImpl<$Res> implements $ItemCopyWith<$Res> {
   }) {
     return _then(_value.copyWith(
       id: id == freezed ? _value.id : id as String?,
-      name: name == freezed ? _value.name : name as String?,
+      name: name == freezed ? _value.name : name as String,
       obtainded: obtainded == freezed ? _value.obtainded : obtainded as bool,
     ));
   }
@@ -81,7 +81,7 @@ abstract class _$ItemCopyWith<$Res> implements $ItemCopyWith<$Res> {
   factory _$ItemCopyWith(_Item value, $Res Function(_Item) then) =
       __$ItemCopyWithImpl<$Res>;
   @override
-  $Res call({String? id, String? name, bool obtainded});
+  $Res call({String? id, String name, bool obtainded});
 }
 
 /// @nodoc
@@ -101,7 +101,7 @@ class __$ItemCopyWithImpl<$Res> extends _$ItemCopyWithImpl<$Res>
   }) {
     return _then(_Item(
       id: id == freezed ? _value.id : id as String?,
-      name: name == freezed ? _value.name : name as String?,
+      name: name == freezed ? _value.name : name as String,
       obtainded: obtainded == freezed ? _value.obtainded : obtainded as bool,
     ));
   }
@@ -110,8 +110,9 @@ class __$ItemCopyWithImpl<$Res> extends _$ItemCopyWithImpl<$Res>
 @JsonSerializable()
 
 /// @nodoc
-class _$_Item implements _Item {
-  _$_Item({this.id, this.name, this.obtainded = false});
+class _$_Item extends _Item {
+  const _$_Item({this.id, required this.name, this.obtainded = false})
+      : super._();
 
   factory _$_Item.fromJson(Map<String, dynamic> json) =>
       _$_$_ItemFromJson(json);
@@ -119,7 +120,7 @@ class _$_Item implements _Item {
   @override
   final String? id;
   @override
-  final String? name;
+  final String name;
   @JsonKey(defaultValue: false)
   @override
   final bool obtainded;
@@ -160,15 +161,17 @@ class _$_Item implements _Item {
   }
 }
 
-abstract class _Item implements Item {
-  factory _Item({String? id, String? name, bool obtainded}) = _$_Item;
+abstract class _Item extends Item {
+  const _Item._() : super._();
+  const factory _Item({String? id, required String name, bool obtainded}) =
+      _$_Item;
 
   factory _Item.fromJson(Map<String, dynamic> json) = _$_Item.fromJson;
 
   @override
   String? get id => throw _privateConstructorUsedError;
   @override
-  String? get name => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
   @override
   bool get obtainded => throw _privateConstructorUsedError;
   @override

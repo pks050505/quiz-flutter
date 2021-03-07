@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import '../extensions/firebase_firestore_extensions.dart';
 import 'package:flutter_cource_todo_2/exceptions/custom_exception.dart';
 import 'package:flutter_cource_todo_2/models/item.dart';
@@ -7,10 +6,10 @@ import 'package:flutter_cource_todo_2/providers/general_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 abstract class BaseItemRepository {
-  Future<List<Item>?> retrieveItem({String userId});
-  Future<String> createItem({String userId, Item item});
-  Future<void> updateItem({String userId, Item item});
-  Future<void> deleteItem({String userId, String itemId});
+  Future<List<Item>?> retrieveItem({required String userId});
+  Future<String> createItem({required String userId, required Item item});
+  Future<void> updateItem({required String userId, required Item item});
+  Future<void> deleteItem({required String userId, required String itemId});
 }
 
 final itemRepositoryProvider = Provider<ItemRepository>((ref) {
@@ -25,7 +24,7 @@ class ItemRepository extends BaseItemRepository {
     try {
       var doc = await _read(firebaseFirestoreProvider)
           .userListRef(userId!)
-          .add(item!.toJson()..remove('id'));
+          .add(item!.toDocument());
       return doc.id;
     } on FirebaseException catch (e) {
       throw CustomException(message: e.message);
